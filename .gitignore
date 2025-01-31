@@ -1,0 +1,61 @@
+# Ignorar arquivos de compilação do Java
+**/target/
+**/bin/
+**/.classpath
+**/.project
+**/.settings/
+**/.mvn/
+
+# Ignorar arquivos de log
+**/*.log
+
+containers-data/postgres_data
+containers-data/keycloak_data
+
+# Ignorar arquivos do VSCode
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# Ignorar arquivos de ambiente
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+
+# Ignorar arquivos de sistema
+.DS_Store
+Thumbs.db
+
+# Ignorar arquivos de dependências
+**/node_modules/
+**/bower_components/
+
+# Ignorar arquivos de IDE
+.idea/
+*.iml
+
+# Ignorar arquivos de build
+**/build/
+**/dist/
+
+# Ignorar arquivos de cache
+**/.cache/
+**/.npm/
+**/.yarn/
+
+# Ignorar arquivos de configuração local
+**/local.properties
+**/local.env
+
+# Ignorar arquivos de teste
+**/test-results/
+**/coverage/
+
+# Ignorar arquivos de backup
+*.bak
+*.tmp
+*.swp

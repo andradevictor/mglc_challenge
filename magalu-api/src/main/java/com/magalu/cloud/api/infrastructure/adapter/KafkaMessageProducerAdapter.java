@@ -9,10 +9,7 @@ import com.magalu.cloud.api.domain.port.KafkaMessageProducerPort;
 @Component
 public class KafkaMessageProducerAdapter implements KafkaMessageProducerPort {
 
-    @Value(value = "ingestor.consumer.group")
-    private String group;
-
-    @Value(value = "ingestor.consumer.topic")
+    @Value("${magalu.kafka.producer.topic}")
     private String topic;
 
     private final KafkaTemplate<String, String> kafkaTemplate;

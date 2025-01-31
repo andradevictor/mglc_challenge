@@ -1,14 +1,43 @@
+server:
+    port: 8083
 spring:
   application:
-    name: consumer
+    name: api
   kafka:
-    consumer:
-      bootstrap-servers: localhost:9092
-      group-id: pulse.group
-      auto-offset-reset: earliest
+    bootstrap-servers: localhost:9093
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
     listener:
       concurrency: 2
-  data:
-    redis:
-      host: localhost
-      port: 6379
+  datasource:
+    url: jdbc:postgresql://localhost:5432/mglc_pulse
+    username: mglc_user
+    password: mglc_password
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/realms/mglc
+
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: DEBUG
+        type:
+          descriptor:
+            sql: TRACE
+      springframework:
+        security: DEBUG
+
+magalu:
+  kafka:
+    producer:
+      topic: pulse.received

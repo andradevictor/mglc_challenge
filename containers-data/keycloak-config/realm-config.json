@@ -1,0 +1,22 @@
+{
+  "realm": "mglc",
+  "enabled": true,
+  "clients": [
+    {
+      "clientId": "mglc-client-id",
+      "enabled": true,
+      "secret": "mglc-client-secret",
+      "protocol": "openid-connect",
+      "publicClient": false,
+      "redirectUris": [
+        "http://localhost:8083/*"
+      ],
+      "serviceAccountsEnabled": true,
+      "access": {
+        "view": true,
+        "configure": true,
+        "manage": true
+      }
+    }
+  ]
+}

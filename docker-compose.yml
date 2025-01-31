@@ -1,0 +1,143 @@
+services:
+
+# kafka
+  kafka:
+    image: bitnami/kafka:latest
+    container_name: kafka
+    restart: on-failure
+    ports:
+      - 9092:9092
+      - 9093:9093
+    environment:
+      - KAFKA_CFG_BROKER_ID=1
+      - KAFKA_CFG_LISTENERS=INTERNAL://0.0.0.0:9092,EXTERNAL://0.0.0.0:9093
+      - KAFKA_CFG_ADVERTISED_LISTENERS=INTERNAL://kafka:9092,EXTERNAL://localhost:9093
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT
+      - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=INTERNAL
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+      - KAFKA_CFG_NUM_PARTITIONS=3
+      - ALLOW_PLAINTEXT_LISTENER=yes
+      - KAFKA_CREATE_TOPICS=pulse.received:1:1,pulse.summarized:1:1
+    depends_on:
+      - zookeeper
+    networks:
+      - mglc-net
+
+  kafka-init:
+    image: docker.io/bitnami/kafka:3
+    networks:
+      - mglc-net
+    environment:
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+      - TEST_TOPIC_NAME=test
+    depends_on:
+      kafka:
+        condition: service_started
+    volumes:
+      - type: bind
+        source: ./containers-data/create_topic.sh
+        target: /kafka_init/create_topic.sh
+    init: true
+    command: >
+      bash -c "
+      chmod +x /kafka_init/create_topic.sh &&
+      /kafka_init/create_topic.sh 
+      "
+
+  zookeeper:
+    image: bitnami/zookeeper:latest
+    ports:
+      - 2181:2181
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+    networks:
+      - mglc-net
+    
+# apache-flink
+  jobmanager:
+    image: apache/flink:java17
+    container_name: flink-jobmanager
+    environment:
+       - |
+         FLINK_PROPERTIES=
+         jobmanager.rpc.address: jobmanager
+         taskmanager.numberOfTaskSlots: 6
+         taskmanager.web.log.path: /opt/flink/log/output.log
+         parallelism.default: 5
+    ports:
+      - "8081:8081"
+    networks:
+      - mglc-net
+    volumes:
+      - ./magalu-in/target:/opt/flink/usrlib
+    command: >
+      jobmanager && bash -c "
+      /opt/flink/bin/jobmanager.sh start;
+      while ! nc -z jobmanager 6123; do
+        echo 'Waiting for JobManager to be ready...';
+        sleep 5;
+      done;
+      /opt/flink/bin/flink run /opt/flink/usrlib/in-0.0.1-SNAPSHOT.jar;
+      tail -f /dev
+
+  taskmanager:
+    image: apache/flink:java17
+    container_name: flink-taskmanager
+    environment:
+       - |
+         FLINK_PROPERTIES=
+         jobmanager.rpc.address: jobmanager
+         taskmanager.numberOfTaskSlots: 6
+         taskmanager.web.log.path: /opt/flink/log/output.log
+         parallelism.default: 5
+    depends_on:
+      - jobmanager
+    networks:
+      - mglc-net
+    command: taskmanager
+
+# database
+  postgres:
+    image: postgres:latest
+    container_name: mglc_postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: mglc_user
+      POSTGRES_PASSWORD: mglc_password
+      POSTGRES_DB: mglc_pulse
+      POSTGRES_PORT: 5432
+    volumes:
+      - ./containers-data/postgres_data:/var/lib/postgresql/data
+      - ./containers-data/create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
+    networks:
+      - mglc-net
+
+  #key cloak
+  keycloak:
+      image: quay.io/keycloak/keycloak:latest
+      container_name: keycloak
+      environment:
+        - KEYCLOAK_ADMIN=admin
+        - KEYCLOAK_ADMIN_PASSWORD=admin
+        - DB_VENDOR=h2
+        - KEYCLOAK_USER=admin
+        - KEYCLOAK_PASSWORD=admin
+        - KEYCLOAK_IMPORT=/opt/keycloak/data/realm-config.json
+      ports:
+        - "8080:8080"
+      networks:
+        - mglc-net
+      command: ["start-dev", "--import-realm"]
+      volumes:
+        - ./containers-data/keycloak-config:/opt/keycloak/data/import
+
+volumes:
+  postgres_data:
+  kafka_data:
+  keycloak_data:
+
+
+networks:
+  mglc-net:
+    driver: bridge

@@ -1,0 +1,139 @@
+{
+	"info": {
+		"_postman_id": "e3b31cb7-6b2f-4f64-a701-729978da2a53",
+		"name": "Magalu-API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "41722370"
+	},
+	"item": [
+		{
+			"name": "Gerar pulsos",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJ1WGZnR1V0VHBzQ2F6MzR1UGcxMTVhWXFheEt2QXFoa0JGVEFBM1IwSVhVIn0.eyJleHAiOjE3Mzg0OTg1NTIsImlhdCI6MTczODQ5ODI1MiwianRpIjoiMmMzZWQyZmEtN2ZkNS00NDU3LThkYjktNzRjOWZlMTk3Yzg1IiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo4MDgwL3JlYWxtcy9tZ2xjIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6IjQ4ZjBkNjU4LTYxYWQtNDRmOC04OGQ4LTYxZTQ4ZjQ4Njg3NCIsInR5cCI6IkJlYXJlciIsImF6cCI6Im1nbGMtY2xpZW50LWlkIiwiYWNyIjoiMSIsImFsbG93ZWQtb3JpZ2lucyI6WyJodHRwOi8vbG9jYWxob3N0OjgwODMiXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbImRlZmF1bHQtcm9sZXMtbWdsYyIsIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6ImVtYWlsIHByb2ZpbGUiLCJjbGllbnRIb3N0IjoiMTcyLjIzLjAuMSIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwicHJlZmVycmVkX3VzZXJuYW1lIjoic2VydmljZS1hY2NvdW50LW1nbGMtY2xpZW50LWlkIiwiY2xpZW50QWRkcmVzcyI6IjE3Mi4yMy4wLjEiLCJjbGllbnRfaWQiOiJtZ2xjLWNsaWVudC1pZCJ9.Yb50kliSF3Hoh1NVNq19HNOL__eA63s6egVBWYhJN98dxdSCKG3PkqtHrL3OLf9QwDfahsjgaNyYCYeXeCJvcCfZY_SpWnhAbb4RNXjalbBKIi-K_2jvmK-RxKrC8Vl3nADHs5RVotXmko_UGaXmM0KQl8gAGmrtNReflM1OnlJ6Zu-WbqCS_ZK1TrkS4VYIPGIo4Y3FNFanrz-if8fduIM7kD3YsE-ad_H1S5vaZF97SjV_Z_f647pzPGgczlrFvGYHB42x0MZzWvsYXB9G5IVvxdF5zdXYxo-qyUBgK3pmHbVTTQt6e1kTwqS2sDsX-shlqQTW_pQ8G8M8zba22A",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"tenant\" : \"tenant\",\n  \"productSku\" : \"sku-4562\",\n  \"usedAmount\" : 30,\n  \"useUnity\" : \"KB\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8083/api/v1/pulse",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"api",
+						"v1",
+						"pulse"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Consultar Sumarizado por dia",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJEeUEyaUZiS2ZBbkFITVdkZUxNcWJjSnVPRTV6WjhubTBiS2tVYjlBdnJZIn0.eyJleHAiOjE3Mzg0MjE0MDAsImlhdCI6MTczODQyMTEwMCwianRpIjoiN2QyM2ZhNzgtNzFhZS00Nzk1LTg3MjctMzRmMzIyODFiM2Y5IiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo4MDgwL3JlYWxtcy9tZ2xjIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6ImRlYzFlNDNmLWRkNTYtNDdhZS05MTY1LWQ1NmM1MDE4YmRmYiIsInR5cCI6IkJlYXJlciIsImF6cCI6Im1nbGMtY2xpZW50LWlkIiwiYWNyIjoiMSIsImFsbG93ZWQtb3JpZ2lucyI6WyJodHRwOi8vbG9jYWxob3N0OjgwODMiXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbImRlZmF1bHQtcm9sZXMtbWdsYyIsIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6ImVtYWlsIHByb2ZpbGUiLCJjbGllbnRIb3N0IjoiMTcyLjIzLjAuMSIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwicHJlZmVycmVkX3VzZXJuYW1lIjoic2VydmljZS1hY2NvdW50LW1nbGMtY2xpZW50LWlkIiwiY2xpZW50QWRkcmVzcyI6IjE3Mi4yMy4wLjEiLCJjbGllbnRfaWQiOiJtZ2xjLWNsaWVudC1pZCJ9.R_R-LMq2d1boAgHk_80aGDlMl8OJ5q6QzNgJ1GZlZ54EjAhBGGnHBFACMxXe69CxIFVNJ2gnP5OkB15BEUHf1TgoNqDIDe3y841A9EVM191IbztJrmLLOJD8GEPDDC9IG1qlZ82eunSTqP1y3GNfrsuROB7eLt8lxidLqPU9dKPO0_Pcw7M1OSYt8sNKkR6KH-2TfnTHM7DrW6MGNVnTkNutkaa7BWMF4yWIxVJg7qu5rAzVbtc78u7SsYP7KrqkVWVc3ooPSDT693VWFkC9NQ03Ekigm-7ybY8Vsmmea2nFqMIIqWfU4KfV-ad1CHQjqtYBPqDDNmdJOJj3LrmULQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"tenant\" : \"tenant-123\",\n  \"productSku\" : \"sku-4562\",\n  \"usedAmount\" : 30,\n  \"useUnity\" : \"KB\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8083/api/v1/pulse/tenant/2025-02-01",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"api",
+						"v1",
+						"pulse",
+						"tenant",
+						"2025-02-01"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Gerar Token",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "grant_type",
+							"value": "client_credentials",
+							"type": "text"
+						},
+						{
+							"key": "client_id",
+							"value": "mglc-client-id",
+							"type": "text"
+						},
+						{
+							"key": "client_secret",
+							"value": "mglc-client-secret",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:8080/realms/mglc/protocol/openid-connect/token",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"realms",
+						"mglc",
+						"protocol",
+						"openid-connect",
+						"token"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

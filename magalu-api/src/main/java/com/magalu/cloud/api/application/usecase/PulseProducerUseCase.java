@@ -8,15 +8,16 @@ import com.magalu.cloud.api.domain.model.Pulse;
 import com.magalu.cloud.api.domain.port.KafkaMessageProducerPort;
 
 @Component
-public class PulseUseCase {
+public class PulseProducerUseCase {
 
     private KafkaMessageProducerPort pulseMessagePort;
 
-    public PulseUseCase(KafkaMessageProducerPort pulseMessagePort) {
+    public PulseProducerUseCase(KafkaMessageProducerPort pulseMessagePort) {
         this.pulseMessagePort = pulseMessagePort;
     }
 
     public void processPulse(Pulse pulse) throws JsonProcessingException {
         pulseMessagePort.producerMessage(new ObjectMapper().writeValueAsString(pulse));
     }
+
 }
