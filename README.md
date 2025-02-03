@@ -40,7 +40,7 @@ Este comando irá subir os containers necessários para execução do projeto.
 1. No VSCode, abra a classe principal `MagaluApiApplication.java`.
 2. Pressione `F5` para iniciar a execução.
 
-A API será iniciada na porta `8080` por padrão.
+A API será iniciada na porta `8083`.
 
 ---
 
@@ -74,7 +74,11 @@ A API utiliza Keycloak para autenticação. Para obter um token de acesso, siga 
 3. Obtenha um token de acesso executando a seguinte requisição:
    
    ```sh
-   curl -X POST "http://localhost:8080/auth/realms/magalu/protocol/openid-connect/token"    -H "Content-Type: application/x-www-form-urlencoded"    -d "username=admin"    -d "password=admin"    -d "grant_type=password"    -d "client_id=magalu-client"
+   curl --location 'localhost:8080/realms/mglc/protocol/openid-connect/token' \
+        --header 'Content-Type: application/x-www-form-urlencoded' \
+        --data-urlencode 'grant_type=client_credentials' \
+        --data-urlencode 'client_id=mglc-client-id' \
+        --data-urlencode 'client_secret=mglc-client-secret'
    ```
 
 4. O token será retornado no campo `access_token`, e deverá ser incluído no cabeçalho das requisições:
@@ -99,16 +103,20 @@ Content-Type: application/json
 Authorization: Bearer SEU_TOKEN_AQUI
 
 {
-  "tenant": "empresa-x",
-  "timestamp": "2025-02-01T12:00:00Z",
-  "valor": 100
+  "tenant" : "tenant",
+  "productSku" : "sku-4562",
+  "usedAmount" : 30,
+  "useUnity" : "KB"
 }
 ```
 
 **Resposta:**
 ```json
 {
-  "message": "Pulso enviado para o Kafka com sucesso"
+  "tenant" : "tenant",
+  "productSku" : "sku-4562",
+  "usedAmount" : 30,
+  "useUnity" : "KB"
 }
 ```
 
@@ -122,13 +130,27 @@ Authorization: Bearer SEU_TOKEN_AQUI
 
 **Resposta:**
 ```json
-{
-  "tenant": "empresa-x",
-  "data": "2025-02-01",
-  "total": 5000
-}
+[
+    {
+        "productSku": "sku",
+        "summarizedAmount": 210.00000,
+        "useUnity": "4562",
+        "summarizedDate": "2025-02-01"
+    },
+    {
+        "productSku": "sku",
+        "summarizedAmount": 210.00000,
+        "useUnity": "4562",
+        "summarizedDate": "2025-02-01"
+    },
+    {
+        "productSku": "sku",
+        "summarizedAmount": 330.00000,
+        "useUnity": "4562",
+        "summarizedDate": "2025-02-01"
+    }
+]
 ```
-
 ---
 
 ## 6. Enviando Mensagem Diretamente para o Kafka
@@ -136,9 +158,9 @@ Authorization: Bearer SEU_TOKEN_AQUI
 Se quiser enviar um evento diretamente para o Kafka (sem usar a API REST), utilize o seguinte comando:
 
 ```sh
-echo '{"tenant": "empresa-x", "timestamp": "2025-02-01T12:00:00Z", "valor": 100}' | kafka-console-producer --broker-list localhost:9092 --topic pulsos
+echo '{ "tenant" : "tenant", "productSku" : "sku-4562", "usedAmount" : 30, "useUnity" : "KB" }' | kafka-console-producer --broker-list localhost:9092 --topic pulse.received
 ```
 
-Isso insere um evento diretamente no tópico Kafka `pulsos`.
+Isso insere um evento diretamente no tópico Kafka `pulse.received`.
 
 ---
