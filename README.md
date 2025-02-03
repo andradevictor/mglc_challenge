@@ -20,7 +20,6 @@ Este guia descreve como subir as dependências usando `docker-compose`, rodar a 
 No diretório raiz do repositório, execute o seguinte comando para iniciar os containers do Kafka, PostgreSQL, Flink e Keycloak:
 
 ```sh
-cd containers-data
 docker-compose up -d
 ```
 
